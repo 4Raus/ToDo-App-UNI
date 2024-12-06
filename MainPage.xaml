@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ToDo_App.MainPage"
+    Title="ToDo App">
+
+    <StackLayout Padding="10">
+        <!-- Заголовок приложения -->
+        <Label Text="ToDo App" FontSize="24" HorizontalOptions="Center" TextColor="White" />
+
+        <!-- Поле для ввода новой задачи и кнопка добавления -->
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Button Text="⏰"
+                    CommandParameter="{Binding .}"
+                    Clicked="PickDeadlineButton_Clicked"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    CornerRadius="10" />
+            <Entry x:Name="NewTaskEntry" Placeholder="Введите новую задачу" HorizontalOptions="FillAndExpand"/>
+            <Button Text="Добавить" Clicked="AddTaskButton_Clicked"/>
+        </StackLayout>
+
+        <!-- Список задач -->
+        <CollectionView x:Name="TasksCollectionView" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="5" ColumnDefinitions="*, Auto, Auto, Auto">
+                        <!-- Текст задачи -->
+                        <Grid Grid.Column="0" Padding="5" ColumnDefinitions="Auto, *">
+                            <CheckBox IsChecked="{Binding IsCompleted}" VerticalOptions="Center" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding Text}"
+                                   TextColor="{Binding TextColor}"
+                                   VerticalOptions="Center"
+                                   Margin="10,0,0,0" />
+                        </Grid>
+
+                        <!-- Время дедлайна -->
+                        <Label Grid.Column="1"
+                               Text="{Binding Deadline, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}"
+                               TextColor="{Binding DeadlineColor}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               Margin="0,0,10,0" />
+
+                        <!-- Кнопка редактирования -->
+                        <Button Grid.Column="2"
+                                Text="✎"
+                                BackgroundColor="#f39c12"
+                                TextColor="White"
+                                CommandParameter="{Binding .}"
+                                Clicked="EditTaskButton_Clicked"
+                                WidthRequest="25"
+                                HeightRequest="25"
+                                CornerRadius="5"
+                                Margin="0,0,5,0"
+                                VerticalOptions="Center" />
+
+                        <!-- Кнопка удаления -->
+                        <Button Grid.Column="3"
+                                Text="X"
+                                BackgroundColor="Red"
+                                TextColor="White"
+                                CommandParameter="{Binding .}"
+                                Clicked="DeleteTaskButton_Clicked"
+                                WidthRequest="25"
+                                HeightRequest="25"
+                                CornerRadius="5"
+                                VerticalOptions="Center" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </StackLayout>
+
+</ContentPage>
